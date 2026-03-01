@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="admission-section">
+
+    <div class="container">
+
+        <div class="admission-card">
+
+            <h2 class="text-center mb-4">Online Admission Form</h2>
+            <p class="text-center subtitle">
+                Please fill in the details carefully
+            </p>
+
+            <form method="POST" action="/submit-admission" class="admission-form">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="text" name="student_name" required>
+                            <label>Student Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="text" name="father_name" required>
+                            <label>Father Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="text" name="class_apply" required>
+                            <label>Class Applying For</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="date" name="dob" required>
+                            <label>Date of Birth</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="text" name="phone" required>
+                            <label>Phone Number</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="floating-group">
+                            <input type="email" name="email">
+                            <label>Email Address</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="floating-group">
+                            <textarea name="address" required></textarea>
+                            <label>Full Address</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="premium-submit-btn">
+                        Submit Application
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

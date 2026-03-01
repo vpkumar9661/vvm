@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="background:#0b1f3a; color:white;">
+
+<section class="full-gallery">
+    <div class="gallery-grid">
+    {% for img in gallery %}
+    <div class="gallery-card">
+        <img src="{{ url_for('static', filename='gallery/' ~ img.image) }}"
+             onclick="openLightbox(this.src)">
+    </div>
+    {% endfor %}
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox" onclick="closeLightbox()">×</span>
+    <img id="lightbox-img">
+</div>
+</section>
+
+</body>
+</html>
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <div class="cursor"></div>
+<div class="cursor-glow"></div>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Vivekanand Vidya Mandir Dharampur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-white shadow sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" 
+                 height="60" class="me-2">
+            <div>
+                <h6 class="mb-0 text-dark fw-bold">Vivekanand Vidya Mandir</h6>
+                <small class="text-muted">Dharampur (CBSE)</small>
+            </div>
+        </a>
+
+        <button class="navbar-toggler bg-primary" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto fw-semibold">
+                <li>
+    <a href="#home" class="nav-link home-btn">
+        Home
+    </a>
+</li>
+    <a href="/admin" class="hero-admin-btn">
+    Admin Login
+</a>
+</li>
+
+<li>
+    <a href="{{ url_for('admission_page') }}" class="nav-premium-btn">
+        Online Admission
+    </a>
+</li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+            
+{% block content %}{% endblock %}
+
+<!-- Contact Info Strip -->
+<div class="contact-strip text-center py-3">
+    📍 Mandpa, Tatijhariya, Hazaribagh |
+    📞 8084558842 |
+    ✉ vvmdharampur@gmail.com
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center p-4 mt-5">
+    <p>© 2026 Vivekanand Vidya Mandir Dharampur</p>
+    <p>Affiliation No: 3430608 | School Code: 66688</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script>
+
+// Auto Sliding Carousel
+const carousel = document.querySelector(".notice-carousel");
+
+setInterval(() => {
+    carousel.scrollBy({ left: 370, behavior: "smooth" });
+}, 4000);
+
+// 3D Tilt Effect
+document.querySelectorAll(".notice-card").forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / 20);
+        const rotateY = ((centerX - x) / 20);
+
+        card.style.transform =
+            `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+        card.style.transform = "rotateX(0) rotateY(0)";
+    });
+});
+
+// Scroll Animation
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = "translateY(0)";
+        }
+    });
+});
+
+document.querySelectorAll(".notice-card").forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = "translateY(50px)";
+    observer.observe(card);
+});
+
+// Modal
+function openNoticeModal(title, content){
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalContent").innerText = content;
+    document.getElementById("noticeModal").classList.add("active");
+}
+
+function closeNoticeModal(){
+    document.getElementById("noticeModal").classList.remove("active");
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+<section id="home" class="hero-section">
+    <div class="hero-content text-center">
+        <h1>Vivekanand Vidya Mandir Dharampur</h1>
+        <p class="school-info">
+            Affiliation No: 3430608 | School Code: 66688
+        </p>
+        <p class="tagline">Inspiring Excellence. Building Character.</p>
+    </div>
+</section>
+
+<!-- ================= COUNTER SECTION ================= -->
+<section class="counter-section">
+    <div class="container">
+        <div class="row text-center g-4">
+
+            <div class="col-md-3">
+                <div class="counter-box">
+                    <h2 class="counter" data-target="1200">0</h2>
+                    <p>Students</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="counter-box">
+                    <h2 class="counter" data-target="50">0</h2>
+                    <p>Teachers</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="counter-box">
+                    <h2 class="counter" data-target="25">0</h2>
+                    <p>Classrooms</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="counter-box">
+                    <h2 class="counter" data-target="15">0</h2>
+                    <p>Years Experience</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= ABOUT SECTION ================= -->
+<section id="about" class="about-section">
+    <div class="container text-center">
+        <h2 class="section-title">About Our School</h2>
+        <p>
+            Vivekanand Vidya Mandir Dharampur is a CBSE affiliated English medium 
+            co-educational school established on 19 December 2009. 
+            We are committed to academic excellence, discipline and character building.
+        </p>
+    </div>
+</section>
+
+<!-- ================= PRINCIPAL SECTION ================= -->
+<section class="principal-section">
+    <div class="container">
+        <div class="principal-card">
+
+            <div class="principal-image">
+                <img src="{{ url_for('static', filename='images/principal.jpg') }}" alt="Principal">
+            </div>
+
+            <div class="principal-content">
+                <h2>Message from the Principal</h2>
+
+                <p class="quote">
+                    “Develop a passion for learning. If you do, you will never cease to grow.”
+                </p>
+
+                <p>
+                    VVM Dharampur School is a mission-driven community providing world class 
+                    education while celebrating each student’s uniqueness. We believe education 
+                    is a collaborative effort involving administrators, teachers and students.
+                </p>
+
+                <h5>BABLU PRAJAPATI</h5>
+                <span>Principal | 12+ Years Experience</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= FACILITIES SECTION ================= -->
+<section id="facilities" class="facility-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Our Facilities</h2>
+            <p>Providing Modern Infrastructure & Learning Environment</p>
+        </div>
+
+        <div class="facility-grid">
+
+            <div class="facility-card">💻<h4>Computer Lab</h4></div>
+            <div class="facility-card">🖥<h4>Smart Classes</h4></div>
+            <div class="facility-card">🔬<h4>Science Lab</h4></div>
+            <div class="facility-card">📚<h4>Library</h4></div>
+            <div class="facility-card">⚽<h4>Sports Ground</h4></div>
+            <div class="facility-card">🚌<h4>Transport & CCTV</h4></div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= NOTICE SECTION ================= -->
+<section class="latest-notice">
+    <h2 class="section-title">Latest Notices</h2>
+
+    <div class="notice-carousel">
+
+        {% for notice in notices %}
+        <div class="notice-card">
+
+            {% if notice.image %}
+            <div class="notice-image">
+                <img src="{{ url_for('static', filename='notice_images/' ~ notice.image) }}">
+            </div>
+            {% endif %}
+
+            <div class="notice-content">
+                <h3>{{ notice.title }}</h3>
+                <p>{{ notice.content[:120] }}...</p>
+
+                <button class="read-more-btn"
+                        onclick="openNoticeModal(`{{ notice.title }}`, `{{ notice.content }}`)">
+                    Read More
+                </button>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- ================= GALLERY PREVIEW ================= -->
+<section class="home-gallery">
+    <div class="container">
+
+        <h2 class="section-title">Our Gallery</h2>
+
+        <div class="collage-box">
+            <div class="collage-track">
+                {% for img in gallery[:4] %}
+                <div class="collage-item">
+                    <img src="{{ url_for('static', filename='gallery/' ~ img.image) }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="gallery-btn-wrapper">
+            <a href="{{ url_for('gallery_page') }}" class="view-all-button">
+                View All Images
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= CONTACT SECTION ================= -->
+<section class="contact-section fade-in">
+    <div class="container">
+        <div class="contact-wrapper">
+
+            <div class="contact-form glass-3d">
+                <h2>Contact Us</h2>
+
+                <form method="POST" action="/send-message">
+
+                    <div class="floating-group">
+                        <input type="text" name="name" required>
+                        <label>Your Name</label>
+                    </div>
+
+                    <div class="floating-group">
+                        <input type="email" name="email" required>
+                        <label>Your Email</label>
+                    </div>
+
+                    <div class="floating-group">
+                        <textarea name="message" required></textarea>
+                        <label>Your Message</label>
+                    </div>
+
+                    <button type="submit">Send Message</button>
+
+                </form>
+            </div>
+
+            <div class="contact-map glow-border">
+                <iframe 
+                    src="https://www.google.com/maps?q=Vivekanand+Vidya+Mandir+Dharampur&output=embed"
+                    loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
