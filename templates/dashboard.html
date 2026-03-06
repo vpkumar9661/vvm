@@ -1,228 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard - VVM Dharampur</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Chart JS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        body{
-            margin:0;
-            font-family:'Segoe UI',sans-serif;
-            background:linear-gradient(135deg,#0b1f3a,#122f55);
-            color:white;
-        }
-
-        .layout{
-            display:flex;
-            min-height:100vh;
-        }
-
-        /* SIDEBAR */
-        .sidebar{
-            width:250px;
-            background:rgba(0,0,0,0.4);
-            backdrop-filter:blur(20px);
-            padding:30px;
-        }
-
-        .sidebar h2{
-            margin-bottom:40px;
-        }
-
-        .sidebar a{
-            display:block;
-            color:white;
-            text-decoration:none;
-            margin-bottom:15px;
-            padding:10px;
-            border-radius:10px;
-            transition:0.3s;
-        }
-
-        .sidebar a:hover{
-            background:#00c6ff;
-            transform:translateX(5px);
-        }
-
-        /* MAIN */
-        .main{
-            flex:1;
-            padding:40px;
-        }
-
-        .card{
-            background:rgba(255,255,255,0.08);
-            backdrop-filter:blur(20px);
-            padding:25px;
-            border-radius:20px;
-            margin-bottom:30px;
-            transition:0.3s;
-        }
-
-        .card:hover{
-            transform:translateY(-5px);
-            box-shadow:0 15px 40px rgba(0,198,255,0.4);
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        th,td{
-            padding:10px;
-            text-align:center;
-        }
-
-        th{
-            background:rgba(0,0,0,0.4);
-        }
-
-        tr:nth-child(even){
-            background:rgba(255,255,255,0.05);
-        }
-
-        button{
-            padding:6px 12px;
-            border:none;
-            border-radius:15px;
-            cursor:pointer;
-        }
-
-        .approve{
-            background:#00c853;
-            color:white;
-        }
-
-        .reject{
-            background:#f44336;
-            color:white;
-        }
-
-        .status-approved{color:#00e676;}
-        .status-rejected{color:#ff5252;}
-        .status-pending{color:#ffc107;}
-    </style>
-</head>
-
-<body>
-
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h2>VVM Admin</h2>
-        
-        <a href="#admissions">Admissions</a>
-        <a href="#notice">Notices</a>
-        <a href="#gallery">Gallery</a>
-        <a href="/logout">Logout</a>
-    </div>
-
-    <!-- MAIN -->
-    <div class="main">
-
-        <h1>Dashboard</h1>
-
-        
-
-        <!-- ================= ADMISSIONS ================= -->
-        <div class="card" id="admissions">
-            <h3>Online Admission Applications</h3>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Student</th>
-                        <th>Father</th>
-                        <th>Class</th>
-                        <th>Phone</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                {% for a in admissions %}
-                <tr>
-                    <td>{{ a.id }}</td>
-                    <td>{{ a.student_name }}</td>
-                    <td>{{ a.father_name }}</td>
-                    <td>{{ a.class_apply }}</td>
-                    <td>{{ a.phone }}</td>
-
-                    <td>
-                        {% if a.status == "Approved" %}
-                            <span class="status-approved">Approved</span>
-                        {% elif a.status == "Rejected" %}
-                            <span class="status-rejected">Rejected</span>
-                        {% else %}
-                            <span class="status-pending">Pending</span>
-                        {% endif %}
-                    </td>
-
-                    <td>
-                        {% if a.status == "Pending" %}
-                        <form method="POST" action="/update-admission-status" style="display:inline;">
-                            <input type="hidden" name="id" value="{{ a.id }}">
-                            <input type="hidden" name="action" value="approve">
-                            <button type="submit" class="approve">Approve</button>
-                        </form>
-
-                        <form method="POST" action="/update-admission-status" style="display:inline;">
-                            <input type="hidden" name="id" value="{{ a.id }}">
-                            <input type="hidden" name="action" value="reject">
-                            <button type="submit" class="reject">Reject</button>
-                        </form>
-                        {% else %}
-                        —
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- ================= NOTICES ================= -->
-        <div class="card" id="notice">
-            <h3>Manage Notices</h3>
-
-            {% for notice in notices %}
-            <p><strong>{{ notice.title }}</strong></p>
-            {% endfor %}
-
-            <form method="POST" action="/add-notice" enctype="multipart/form-data">
-                <input type="text" name="title" placeholder="Notice Title" required>
-                <textarea name="content" placeholder="Notice Content" required></textarea>
-                <input type="file" name="image">
-                <button type="submit">Add Notice</button>
-            </form>
-        </div>
-
-        <!-- ================= GALLERY ================= -->
-        <div class="card" id="gallery">
-            <h3>Gallery</h3>
-
-            {% for img in gallery %}
-                <img src="{{ url_for('static', filename='gallery/' + img.image) }}"
-                     style="width:120px;margin:5px;border-radius:10px;">
-            {% endfor %}
-
-            <form method="POST" action="/upload-gallery" enctype="multipart/form-data">
-                <input type="file" name="image" required>
-                <button type="submit">Upload</button>
-            </form>
-        </div>
-
-    </div>
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="mb-4">Admin Dashboard</h3>
+<div class="row g-3 mb-4">
+  <div class="col-md-3"><div class="card card-kpi p-3"><div>Total Students</div><h4>{{ student_count }}</h4></div></div>
+  <div class="col-md-3"><div class="card card-kpi p-3"><div>Total Teachers</div><h4>{{ teacher_count }}</h4></div></div>
+  <div class="col-md-3"><div class="card card-kpi p-3"><div>Expected Fee ({{ month_key }})</div><h4>₹{{ '%.0f'|format(expected_fees) }}</h4></div></div>
+  <div class="col-md-3"><div class="card card-kpi p-3"><div>Received Fee</div><h4>₹{{ '%.0f'|format(received_this_month) }}</h4></div></div>
 </div>
-
-
-
-</body>
-</html>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><div class="card p-3"><h6>Monthly Income</h6><canvas id="incomeChart"></canvas></div></div>
+  <div class="col-md-6"><div class="card p-3"><h6>Expected vs Received vs Pending</h6><canvas id="compareChart"></canvas>
+  <p class="mt-2 fw-bold">Total school income till today: ₹{{ '%.0f'|format(total_income) }}</p></div></div>
+</div>
+<div class="card p-3 mb-3">
+  <h6>Last 30 Fee Transactions</h6>
+  <div class="table-responsive"><table class="table table-sm">
+    <tr><th>Date</th><th>Receipt</th><th>Student</th><th>Month</th><th>Amount</th></tr>
+    {% for t in last_transactions %}
+      <tr><td>{{ t.paid_on }}</td><td>{{ t.receipt_no }}</td><td>{{ t.student_name }}</td><td>{{ t.fee_month }}</td><td>₹{{ '%.0f'|format(t.total_paid) }}</td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const incomeLabels = [{% for m in monthly_income %}'{{ m.fee_month }}',{% endfor %}];
+const incomeData = [{% for m in monthly_income %}{{ m.total }},{% endfor %}];
+new Chart(document.getElementById('incomeChart'), {type:'line', data:{labels:incomeLabels, datasets:[{label:'Income', data:incomeData}]}});
+new Chart(document.getElementById('compareChart'), {
+  type:'bar',
+  data:{labels:['Expected','Received','Pending'], datasets:[{data:[{{ expected_fees }},{{ received_this_month }},{{ pending_fees }}]}]}
+});
+</script>
+{% endblock %}

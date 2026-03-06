@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Reports (PDF / Excel)</h3>
+<form class="row g-2 mb-3">
+  <div class="col-md-2"><select class="form-select" name="class_name"><option value="">All Class</option>{% for c in classes %}<option value="{{ c.class_name }}" {% if filters.class_name==c.class_name %}selected{% endif %}>{{ c.class_name }}</option>{% endfor %}</select></div>
+  <div class="col-md-2"><select class="form-select" name="student_id"><option value="">All Student</option>{% for s in students %}<option value="{{ s.id }}" {% if filters.student_id==(s.id|string) %}selected{% endif %}>{{ s.student_name }}</option>{% endfor %}</select></div>
+  <div class="col-md-2"><input class="form-control" type="month" name="month" value="{{ filters.month }}"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="start_date" value="{{ filters.start_date }}"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="end_date" value="{{ filters.end_date }}"></div>
+  <div class="col-md-2"><button class="btn btn-secondary w-100">Apply</button></div>
+</form>
+<div class="mb-3"><a class="btn btn-danger btn-sm" href="{{ url_for('reports_pdf') }}">Download PDF</a> <a class="btn btn-success btn-sm" href="{{ url_for('reports_excel') }}">Download Excel</a></div>
+<div class="card p-3"><table class="table table-sm"><tr><th>Date</th><th>Student</th><th>Class</th><th>Month</th><th>Total</th></tr>{% for r in rows %}<tr><td>{{ r.paid_on }}</td><td>{{ r.student_name }}</td><td>{{ r.class_name }}</td><td>{{ r.fee_month }}</td><td>₹{{ '%.0f'|format(r.total_paid) }}</td></tr>{% endfor %}</table></div>
+{% endblock %}

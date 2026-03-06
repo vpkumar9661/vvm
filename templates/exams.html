@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Exam Schedule System</h3>
+<div class="card p-3 mb-3">
+  <form method="post" class="row g-2">
+    <div class="col-md-2"><input class="form-control" name="class_name" placeholder="Class" required></div>
+    <div class="col-md-2"><input class="form-control" name="exam_name" placeholder="Exam Name" required></div>
+    <div class="col-md-2"><input class="form-control" name="subject" placeholder="Subject" required></div>
+    <div class="col-md-2"><input class="form-control" type="date" name="exam_date" required></div>
+    <div class="col-md-2"><input class="form-control" type="time" name="start_time"></div>
+    <div class="col-md-2"><input class="form-control" type="time" name="end_time"></div>
+    <div class="col-12"><button class="btn btn-primary">Add Schedule</button></div>
+  </form>
+</div>
+<div class="card p-3">
+  <table class="table table-sm"><tr><th>Class</th><th>Exam</th><th>Subject</th><th>Date</th><th>Time</th><th>Action</th></tr>
+    {% for e in schedules %}<tr><td>{{ e.class_name }}</td><td>{{ e.exam_name }}</td><td>{{ e.subject }}</td><td>{{ e.exam_date }}</td><td>{{ e.start_time }} - {{ e.end_time }}</td><td><a class="btn btn-sm btn-danger" href="{{ url_for('delete_exam', schedule_id=e.id) }}">Delete</a></td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}
