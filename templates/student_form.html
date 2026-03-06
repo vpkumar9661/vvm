@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="mb-3">{{ 'Edit' if student else 'Add' }} Student Admission</h3>
+<form method="post" enctype="multipart/form-data" class="row g-3">
+  {% set s=student %}
+  <div class="col-md-3"><input class="form-control" name="admission_number" placeholder="Admission Number" value="{{ s.admission_number if s }}" required></div>
+  <div class="col-md-3"><input class="form-control" name="student_name" placeholder="Student Name" value="{{ s.student_name if s }}" required></div>
+  <div class="col-md-3"><input class="form-control" type="file" name="student_photo"></div>
+  <div class="col-md-3"><input class="form-control" name="father_name" placeholder="Father Name" value="{{ s.father_name if s }}"></div>
+  <div class="col-md-3"><input class="form-control" name="mother_name" placeholder="Mother Name" value="{{ s.mother_name if s }}"></div>
+  <div class="col-md-3"><input class="form-control" name="aadhar_card_number" placeholder="Aadhar Number" value="{{ s.aadhar_card_number if s }}"></div>
+  <div class="col-md-3"><input class="form-control" name="mobile_number" placeholder="Mobile Number" value="{{ s.mobile_number if s }}"></div>
+  <div class="col-md-3"><input class="form-control" name="address" placeholder="Address" value="{{ s.address if s }}"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="dob" value="{{ s.dob if s }}"></div>
+  <div class="col-md-2"><select class="form-select" name="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+  <div class="col-md-2"><input class="form-control" name="class_name" placeholder="Class" value="{{ s.class_name if s }}"></div>
+  <div class="col-md-2"><input class="form-control" name="section" placeholder="Section" value="{{ s.section if s }}"></div>
+  <div class="col-md-2"><input class="form-control" name="roll_number" placeholder="Roll Number" value="{{ s.roll_number if s }}"></div>
+  <div class="col-md-2"><input class="form-control" type="date" name="admission_date" value="{{ s.admission_date if s else today }}"></div>
+  <div class="col-md-3"><input class="form-control" type="number" step="0.1" name="transport_distance" placeholder="Transport Distance (km)" value="{{ s.transport_distance if s else 0 }}"></div>
+  <div class="col-12"><button class="btn btn-primary">Save Student</button></div>
+</form>
+{% endblock %}
