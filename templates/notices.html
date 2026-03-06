@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Notice Board</h3>
+<div class="card p-3 mb-3">
+  <form method="post" class="row g-2">
+    <div class="col-md-3"><input class="form-control" name="title" placeholder="Notice title" required></div>
+    <div class="col-md-7"><input class="form-control" name="content" placeholder="Announcement content" required></div>
+    <div class="col-md-2"><button class="btn btn-primary w-100">Post Notice</button></div>
+  </form>
+</div>
+<div class="card p-3"><ul>{% for n in notices %}<li><strong>{{ n.title }}</strong> ({{ n.posted_on }}) - {{ n.content }}</li>{% endfor %}</ul></div>
+{% endblock %}

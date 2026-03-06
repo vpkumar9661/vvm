@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Fee Management</h3>
+<div class="card p-3 mb-3">
+  <h6>Pay Fee</h6>
+  <form method="post" class="row g-2">
+    <div class="col-md-4"><select class="form-select" name="student_id" required><option value="">Select Student</option>{% for s in students %}<option value="{{ s.id }}">{{ s.student_name }} ({{ s.admission_number }}) - {{ s.class_name }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><input class="form-control" type="month" name="fee_month" required></div>
+    <div class="col-md-2"><input class="form-control" type="number" name="base_fee" value="2000" required></div>
+    <div class="col-md-2"><select class="form-select" name="payment_mode"><option>Cash</option><option>UPI</option><option>Card</option></select></div>
+    <div class="col-md-2"><button class="btn btn-success w-100">Pay & Generate Receipt</button></div>
+  </form>
+</div>
+<div class="card p-3">
+  <h6>Last 30 Transactions</h6>
+  <table class="table table-sm">
+    <tr><th>Date</th><th>Receipt</th><th>Student</th><th>Month</th><th>Total</th></tr>
+    {% for h in fee_history %}<tr><td>{{ h.paid_on }}</td><td><a href="{{ url_for('receipt_pdf', receipt_no=h.receipt_no) }}">{{ h.receipt_no }}</a></td><td>{{ h.student_name }}</td><td>{{ h.fee_month }}</td><td>₹{{ '%.0f'|format(h.total_paid) }}</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}
