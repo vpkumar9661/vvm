@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Attendance System</h3>
+<div class="card p-3 mb-3">
+  <form method="post" class="row g-2">
+    <div class="col-md-2"><select class="form-select" name="record_type"><option value="student">Student</option><option value="teacher">Teacher</option></select></div>
+    <div class="col-md-3"><select class="form-select" name="person_id"><optgroup label="Students">{% for s in students %}<option value="{{ s.id }}">{{ s.student_name }}</option>{% endfor %}</optgroup><optgroup label="Teachers">{% for t in teachers %}<option value="{{ t.id }}">{{ t.teacher_name }}</option>{% endfor %}</optgroup></select></div>
+    <div class="col-md-2"><input class="form-control" type="date" name="attendance_date" value="{{ today }}"></div>
+    <div class="col-md-2"><select class="form-select" name="status"><option>Present</option><option>Absent</option><option>Leave</option></select></div>
+    <div class="col-md-2"><button class="btn btn-primary">Save</button></div>
+  </form>
+</div>
+<div class="row g-3">
+  <div class="col-md-6"><div class="card p-3"><h6>Recent Student Attendance</h6><ul>{% for r in recent_student_att %}<li>{{ r.attendance_date }} - {{ r.student_name }} ({{ r.status }})</li>{% endfor %}</ul></div></div>
+  <div class="col-md-6"><div class="card p-3"><h6>Recent Teacher Attendance</h6><ul>{% for r in recent_teacher_att %}<li>{{ r.attendance_date }} - {{ r.teacher_name }} ({{ r.status }})</li>{% endfor %}</ul></div></div>
+</div>
+{% endblock %}

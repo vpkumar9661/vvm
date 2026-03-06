@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>ID Card Generator</h3>
+<div class="card p-3">
+  <form method="get" action="{{ url_for('id_cards_download') }}" class="row g-2">
+    <div class="col-md-4">
+      <select class="form-select" name="class_name" required>
+        <option value="">Select Class</option>
+        {% for c in classes %}<option value="{{ c.class_name }}">{{ c.class_name }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3"><button class="btn btn-primary">Download Class-wise ID Cards PDF</button></div>
+  </form>
+</div>
+{% endblock %}

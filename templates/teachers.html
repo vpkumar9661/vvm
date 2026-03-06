@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Teacher Payment Management</h3>
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h6>Add Teacher</h6>
+      <form method="post" class="row g-2">
+        <div class="col-6"><input class="form-control" name="teacher_name" placeholder="Teacher Name" required></div>
+        <div class="col-6"><input class="form-control" name="subject" placeholder="Subject"></div>
+        <div class="col-6"><input class="form-control" name="mobile_number" placeholder="Mobile Number"></div>
+        <div class="col-6"><input class="form-control" type="number" name="salary" placeholder="Salary" required></div>
+        <div class="col-12"><button class="btn btn-primary">Add</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h6>Pay Salary</h6>
+      <form method="post" action="{{ url_for('pay_teacher') }}" class="row g-2">
+        <div class="col-6"><select class="form-select" name="teacher_id">{% for t in teachers %}<option value="{{ t.id }}">{{ t.teacher_name }}</option>{% endfor %}</select></div>
+        <div class="col-3"><input class="form-control" type="month" name="month" value="{{ month_filter }}"></div>
+        <div class="col-3"><input class="form-control" type="number" name="paid_amount" placeholder="Amount"></div>
+        <div class="col-12"><button class="btn btn-success">Pay Salary</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="card p-3 mt-3"><h6>Due Salary ({{ month_filter }})</h6><ul>{% for d in due_list %}<li>{{ d.teacher_name }} - ₹{{ d.salary }}</li>{% else %}<li>No dues</li>{% endfor %}</ul></div>
+<div class="card p-3 mt-3"><h6>Paid Salary Report</h6><table class="table table-sm"><tr><th>Date</th><th>Teacher</th><th>Month</th><th>Amount</th></tr>{% for p in payments %}<tr><td>{{ p.paid_on }}</td><td>{{ p.teacher_name }}</td><td>{{ p.month }}</td><td>₹{{ p.paid_amount }}</td></tr>{% endfor %}</table></div>
+{% endblock %}
