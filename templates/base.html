@@ -99,6 +99,22 @@
       border-color: #edf2fb;
     }
 
+    .dashboard-link-card {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .dashboard-link-card .premium-card {
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .dashboard-link-card:hover .premium-card {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 34px rgba(25, 48, 97, 0.14);
+      border-color: rgba(44, 94, 220, 0.22);
+    }
+
     @media (max-width: 992px) {
       .sidebar-wrap {
         min-height: auto;
