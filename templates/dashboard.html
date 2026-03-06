@@ -1,35 +1,167 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3 class="mb-4">Admin Dashboard</h3>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+  <div>
+    <h3 class="mb-1 fw-bold">Premium Admin Dashboard</h3>
+    <p class="text-muted mb-0">Smart overview for operations, revenue and collections.</p>
+  </div>
+  <span class="badge text-bg-light border px-3 py-2">Month: {{ month_key }}</span>
+</div>
+
 <div class="row g-3 mb-4">
-  <div class="col-md-3"><div class="card card-kpi p-3"><div>Total Students</div><h4>{{ student_count }}</h4></div></div>
-  <div class="col-md-3"><div class="card card-kpi p-3"><div>Total Teachers</div><h4>{{ teacher_count }}</h4></div></div>
-  <div class="col-md-3"><div class="card card-kpi p-3"><div>Expected Fee ({{ month_key }})</div><h4>₹{{ '%.0f'|format(expected_fees) }}</h4></div></div>
-  <div class="col-md-3"><div class="card card-kpi p-3"><div>Received Fee</div><h4>₹{{ '%.0f'|format(received_this_month) }}</h4></div></div>
+  <div class="col-xl-3 col-md-6">
+    <div class="premium-card p-3 h-100" style="background:linear-gradient(120deg,#f7fbff,#eef7ff);">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <small class="text-muted">Total Students</small>
+          <h4 class="fw-bold mb-0">{{ student_count }}</h4>
+        </div>
+        <span class="badge text-bg-primary"><i class="bi bi-people-fill"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="premium-card p-3 h-100" style="background:linear-gradient(120deg,#f8f6ff,#f0ecff);">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <small class="text-muted">Total Teachers</small>
+          <h4 class="fw-bold mb-0">{{ teacher_count }}</h4>
+        </div>
+        <span class="badge text-bg-secondary"><i class="bi bi-person-badge-fill"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="premium-card p-3 h-100" style="background:linear-gradient(120deg,#ecfff5,#e2fbef);">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <small class="text-muted">Expected Fee</small>
+          <h4 class="fw-bold mb-0">₹{{ '%.0f'|format(expected_fees) }}</h4>
+        </div>
+        <span class="badge text-bg-success"><i class="bi bi-wallet2"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="premium-card p-3 h-100" style="background:linear-gradient(120deg,#fff8f0,#fff0df);">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <small class="text-muted">Received Fee</small>
+          <h4 class="fw-bold mb-0">₹{{ '%.0f'|format(received_this_month) }}</h4>
+        </div>
+        <span class="badge text-bg-warning"><i class="bi bi-currency-rupee"></i></span>
+      </div>
+    </div>
+  </div>
 </div>
+
 <div class="row g-3 mb-3">
-  <div class="col-md-6"><div class="card p-3"><h6>Monthly Income</h6><canvas id="incomeChart"></canvas></div></div>
-  <div class="col-md-6"><div class="card p-3"><h6>Expected vs Received vs Pending</h6><canvas id="compareChart"></canvas>
-  <p class="mt-2 fw-bold">Total school income till today: ₹{{ '%.0f'|format(total_income) }}</p></div></div>
+  <div class="col-lg-8">
+    <div class="premium-card p-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="mb-0 fw-semibold">Monthly Income Trend</h6>
+        <small class="text-muted">Last 12 months</small>
+      </div>
+      <canvas id="incomeChart" height="115"></canvas>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="premium-card p-3 h-100">
+      <h6 class="fw-semibold">Expected vs Received vs Pending</h6>
+      <canvas id="compareChart" height="130"></canvas>
+      <hr>
+      <div class="d-flex justify-content-between">
+        <span class="text-muted">Total School Income</span>
+        <strong>₹{{ '%.0f'|format(total_income) }}</strong>
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <span class="text-muted">Pending Collection</span>
+        <strong class="text-danger">₹{{ '%.0f'|format(pending_fees) }}</strong>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="card p-3 mb-3">
-  <h6>Last 30 Fee Transactions</h6>
-  <div class="table-responsive"><table class="table table-sm">
-    <tr><th>Date</th><th>Receipt</th><th>Student</th><th>Month</th><th>Amount</th></tr>
-    {% for t in last_transactions %}
-      <tr><td>{{ t.paid_on }}</td><td>{{ t.receipt_no }}</td><td>{{ t.student_name }}</td><td>{{ t.fee_month }}</td><td>₹{{ '%.0f'|format(t.total_paid) }}</td></tr>
-    {% endfor %}
-  </table></div>
+
+<div class="premium-card p-3">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h6 class="mb-0 fw-semibold">Last 30 Fee Transactions</h6>
+    <span class="badge text-bg-light border">Live Ledger</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table premium-table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Receipt No.</th>
+          <th>Student</th>
+          <th>Fee Month</th>
+          <th class="text-end">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in last_transactions %}
+        <tr>
+          <td>{{ t.paid_on }}</td>
+          <td><span class="badge text-bg-light border">{{ t.receipt_no }}</span></td>
+          <td>{{ t.student_name }}</td>
+          <td>{{ t.fee_month }}</td>
+          <td class="text-end fw-semibold">₹{{ '%.0f'|format(t.total_paid) }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" class="text-center text-muted py-4">No transactions yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
+
 {% block scripts %}
 <script>
 const incomeLabels = [{% for m in monthly_income %}'{{ m.fee_month }}',{% endfor %}];
 const incomeData = [{% for m in monthly_income %}{{ m.total }},{% endfor %}];
-new Chart(document.getElementById('incomeChart'), {type:'line', data:{labels:incomeLabels, datasets:[{label:'Income', data:incomeData}]}});
+
+new Chart(document.getElementById('incomeChart'), {
+  type: 'line',
+  data: {
+    labels: incomeLabels,
+    datasets: [{
+      label: 'Income',
+      data: incomeData,
+      borderColor: '#2b64f6',
+      backgroundColor: 'rgba(43,100,246,0.12)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: 3,
+      pointBackgroundColor: '#2b64f6'
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
 new Chart(document.getElementById('compareChart'), {
-  type:'bar',
-  data:{labels:['Expected','Received','Pending'], datasets:[{data:[{{ expected_fees }},{{ received_this_month }},{{ pending_fees }}]}]}
+  type:'doughnut',
+  data:{
+    labels:['Expected','Received','Pending'],
+    datasets:[{
+      data:[{{ expected_fees }},{{ received_this_month }},{{ pending_fees }}],
+      backgroundColor:['#2b64f6','#1ea97c','#f05f57'],
+      borderWidth:0
+    }]
+  },
+  options:{
+    plugins:{ legend:{ position:'bottom' } },
+    cutout:'65%'
+  }
 });
 </script>
 {% endblock %}
