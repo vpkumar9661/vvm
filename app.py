@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-import csv
 import os
 import shutil
 import sqlite3
 from datetime import date, datetime
 from io import BytesIO
 from pathlib import Path
+from typing import List
 
 from flask import (
     Flask,
-    Response,
     flash,
     redirect,
     render_template,
@@ -174,7 +173,7 @@ def late_fine_for_month(month_key: str) -> float:
     return min(delay_days * 10, 1000)
 
 
-def build_simple_pdf(lines: list[str], title: str = "School ERP") -> bytes:
+def build_simple_pdf(lines: List[str], title: str = "School ERP") -> bytes:
     safe_lines = [title] + lines
     y = 800
     content_lines = ["BT /F1 14 Tf 50 820 Td ({}) Tj ET".format(title.replace('(', '[').replace(')', ']'))]
@@ -331,7 +330,7 @@ def students():
     class_filter = request.args.get("class", "").strip()
 
     query = "SELECT * FROM students WHERE 1=1"
-    params: list[str] = []
+    params: List[str] = []
 
     if search:
         query += " AND (student_name LIKE ? OR admission_number LIKE ? OR mobile_number LIKE ?)"
@@ -837,7 +836,7 @@ def reports():
         JOIN students s ON s.id = fp.student_id
         WHERE 1=1
     """
-    params: list[str] = []
+    params: List[str] = []
 
     if class_name:
         query += " AND s.class_name=?"
